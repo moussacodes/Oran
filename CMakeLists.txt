@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Haïfa)
+project(Haifa)
 include_directories(include)
 
-add_executable(Haïfa src/main.c)
+add_executable(Haifa src/main.c)
