@@ -210,7 +210,7 @@ let ret: u32 = |x: u32, y: u32| -> {
 ```
 **type3:**
 ```
-let ret: u32 = |x: u32, y: u32| -> x + y;;
+let ret: u32 = |x: u32, y: u32| -> x + y;
 ```
 
 **type4:**
