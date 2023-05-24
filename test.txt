@@ -1,1 +1,13 @@
-this is a test
+foo:
+
+a = 3
+b = 4
+
+bar:
+
+c = 99
+d = 1234
+
+lool:
+
+k = 33
