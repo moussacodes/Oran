@@ -1,13 +1,5 @@
-foo:
-
-a + b= 3
-b = 4
-
-bar:
-
-c = 99
-d = 1234
-
-lool:
-
-k = 33
+a: i8 = 10;
+a: i8 = 10 * 12;
+b: bool = false;
+s: str = "hello";
+c: char = 'a';
