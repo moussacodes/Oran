@@ -75,32 +75,27 @@ Token *createToken(TokenType type, const char *value, int lineNumber, int positi
     return token;
 }
 
-Token **tokenize(Content **input, int numLines, int *numTokens)
-{
+Token **tokenize(Content **input, int numLines, int *numTokens) {
     Token **tokens = NULL;
     *numTokens = 0;
 
-    char buffer[256]; // i will change this later to make it dynamic
+    char buffer[256];
     int bufferIndex = 0;
-    int index = 0;
 
-    for (int i = 0; i < numLines; i++)
-    {
-        while (input[i]->lineContent[index] != '\0')
-        {
+    for (int i = 0; i < numLines; i++) {
+        int index = 0;
+
+        while (input[i]->lineContent[index] != '\0') {
             char currentChar = input[i]->lineContent[index];
 
-            // Handle whitespace
-            if (isspace(currentChar))
-            {
+            if (isspace(currentChar)) {
                 index++;
                 continue;
             }
 
-            if (IS_DELIMITER(currentChar))
-            {
-                buffer[bufferIndex++] = currentChar;
-                buffer[bufferIndex] = '\0';
+            if (IS_DELIMITER(currentChar)) {
+                buffer[bufferIndex] = currentChar;
+                buffer[bufferIndex + 1] = '\0';  // Null-terminate the buffer
                 tokens = realloc(tokens, (*numTokens + 1) * sizeof(Token *));
                 tokens[*numTokens] = createToken(TOKEN_DELIMITER, buffer, i, index + 1);
                 (*numTokens)++;
@@ -109,47 +104,40 @@ Token **tokenize(Content **input, int numLines, int *numTokens)
                 continue;
             }
 
-            if (isalpha(currentChar))
-            {
-                while (isalnum(input[i]->lineContent[index]) || input[i]->lineContent[index] == '_')
-                {
+            if (isalpha(currentChar)) {
+                while (isalnum(input[i]->lineContent[index]) || input[i]->lineContent[index] == '_') {
                     buffer[bufferIndex++] = input[i]->lineContent[index++];
                 }
                 buffer[bufferIndex] = '\0';
 
                 TokenType type = TOKEN_IDENTIFIER;
-                if (strcmp(buffer, "int") == 0 || strcmp(buffer, "float") == 0)
-                {
+                if (strcmp(buffer, "int") == 0 || strcmp(buffer, "float") == 0) {
                     type = TOKEN_KEYWORD;
                 }
 
                 tokens = realloc(tokens, (*numTokens + 1) * sizeof(Token *));
-                tokens[*numTokens] = createToken(type, buffer, i, index + 1);
+                tokens[*numTokens] = createToken(type, buffer, i, index - bufferIndex + 1);
                 (*numTokens)++;
                 bufferIndex = 0;
                 continue;
             }
 
-            if (isdigit(currentChar))
-            {
-                while (isdigit(input[i]->lineContent[index]) || input[i]->lineContent[index] == '.')
-                {
+            if (isdigit(currentChar)) {
+                while (isdigit(input[i]->lineContent[index]) || input[i]->lineContent[index] == '.') {
                     buffer[bufferIndex++] = input[i]->lineContent[index++];
                 }
                 buffer[bufferIndex] = '\0';
 
                 TokenType type = TOKEN_INTEGER;
-                for (int i = 0; i < bufferIndex; i++)
-                {
-                    if (buffer[i] == '.')
-                    {
+                for (int j = 0; j < bufferIndex; j++) {
+                    if (buffer[j] == '.') {
                         type = TOKEN_FLOAT;
                         break;
                     }
                 }
 
                 tokens = realloc(tokens, (*numTokens + 1) * sizeof(Token *));
-                tokens[*numTokens] = createToken(type, buffer, i, index + 1);
+                tokens[*numTokens] = createToken(type, buffer, i, index - bufferIndex + 1);
                 (*numTokens)++;
                 bufferIndex = 0;
                 continue;
@@ -167,6 +155,7 @@ Token **tokenize(Content **input, int numLines, int *numTokens)
 
     return tokens;
 }
+
 
 void freeTokens(Token **tokens, int numTokens)
 {
@@ -217,7 +206,7 @@ void printTokens(Token **tokens, int numTokens)
             break;
         }
 
-        printf("Type: %s, Value: %s, Line number: %d, position: %d\n", typeString, token->value, token->lineNumber, token->position);
+        printf("Type: %s,\t\t Value: %s,\t\t Line number: %d,\t\t position: %d\n", typeString, token->value, token->lineNumber, token->position);
     }
 }
 
@@ -243,12 +232,19 @@ char **parser(Token **tokens, int numTokens)
 Content *createNewLine(char *line, int lineNumber)
 {
     Content *newLine = malloc(sizeof(Content));
-    newLine->lineContent = line;
+    if (newLine == NULL)
+    {
+        perror("Memory allocation failed");
+        free(newLine);
+        return NULL;
+    }
+    newLine->lineContent = strdup(line);
     newLine->lineNumber = lineNumber;
     return newLine;
 }
 
-Content **read_file_content(const char *filename, int *lineNumber) {
+Content **read_file_content(const char *filename, int *lineNumber)
+{
     Content **fileContent = NULL;
     FILE *file = fopen(filename, "r");
     size_t lineLen = 0;
@@ -256,24 +252,25 @@ Content **read_file_content(const char *filename, int *lineNumber) {
     char *lineBuffer = NULL;
     ssize_t read;
 
-    if (file == NULL) {
+    if (file == NULL)
+    {
         perror("Failed to open file");
         return NULL;
     }
 
-    while ((read = getline(&lineBuffer, &lineLen, file)) != -1) {
+    while ((read = getline(&lineBuffer, &lineLen, file)) != -1)
+    {
         *lineNumber = *lineNumber + 1;
-        Content *lineContent = malloc(sizeof(Content));
-        lineContent->lineContent = strdup(lineBuffer);
-        lineContent->lineNumber = *lineNumber;
-
+        Content *lineContent = createNewLine(lineBuffer, *lineNumber);
         fileContent = realloc(fileContent, (*lineNumber) * sizeof(Content *));
-        if (fileContent == NULL) {
+        if (fileContent == NULL)
+        {
             perror("Memory allocation failed");
             // Cleanup before returning NULL
             free(lineBuffer);
             fclose(file);
-            for (int i = 0; i < *lineNumber - 1; i++) {
+            for (int i = 0; i < *lineNumber - 1; i++)
+            {
                 free(fileContent[i]->lineContent);
                 free(fileContent[i]);
             }
@@ -289,7 +286,7 @@ Content **read_file_content(const char *filename, int *lineNumber) {
 
     return fileContent;
 }
- // should free fileContent later
+// should free fileContent later
 
 int main(int argc, char const *argv[])
 {
