@@ -1,21 +1,16 @@
- 
+
 #include "common.h"
 
-
-#define IS_DELIMITER(CH) ( \
+#define IS_DELIMITER(CH) (        \
     (CH) == '(' || (CH) == ')' || \
     (CH) == '{' || (CH) == '}' || \
     (CH) == ',' || (CH) == ';' || \
     (CH) == ':' || (CH) == '|')
 
-
-#define IS_OPERATOR(CH) ( \
+#define IS_OPERATOR(CH) (         \
     (CH) == '+' || (CH) == '*' || \
     (CH) == '%' || (CH) == '-' || \
-    (CH) == '/' )
-
-
-
+    (CH) == '/')
 
 #define FREE_TOKEN(token)     \
     do                        \
@@ -49,7 +44,6 @@ void freeLines(Content **fileContent, int numLInes)
     free(fileContent);
 }
 
-
 void printTokens(Token **tokens, int numTokens)
 {
     for (int i = 0; i < numTokens; i++)
@@ -75,6 +69,19 @@ void printTokens(Token **tokens, int numTokens)
         case TOKEN_DELIMITER:
             typeString = "DELIMITER";
             break;
+        case TOKEN_COMPARATOR:
+            typeString = "COMPARATOR";
+            break;
+        case TOKEN_DEFAULT_KEY:
+            typeString = "DEFAULT_KEY";
+            break;
+        case TOKEN_OPTION:
+            typeString = "OPTION";
+            break;
+
+        case TOKEN_OPERATOR:
+            typeString = "OPERATOR";
+            break;
         case TOKEN_UNKNOWN:
         default:
             typeString = "UNKNOWN";
@@ -84,4 +91,3 @@ void printTokens(Token **tokens, int numTokens)
         printf("Type: %s,\t\t Value: %s,\t\t Line number: %d,\t\t position: %d\n", typeString, token->value, token->lineNumber, token->position);
     }
 }
- 

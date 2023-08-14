@@ -17,6 +17,8 @@ typedef enum
 {
     TOKEN_INTEGER,
     TOKEN_FLOAT,
+    TOKEN_DEFAULT_KEY,
+    TOKEN_OPTION,
     TOKEN_COMPARATOR,
     TOKEN_IDENTIFIER,
     TOKEN_OPERATOR,
@@ -34,7 +36,7 @@ typedef struct
 } Token;
 
 #define IS_DELIMITER(CH) ( \
-    (CH) == '(' || (CH) == ')' || (CH) == '{' || (CH) == '}' || (CH) == ',' || (CH) == ';' || (CH) == ':')
+    (CH) == '(' || (CH) == ')' || (CH) == '{' || (CH) == '}' || (CH) == ',' || (CH) == '|' || (CH) == '_' || (CH) == ';' || (CH) == ':')
 
 #define IS_OPERATOR(CH)( \
     (CH) == '+' || (CH) == '-' || (CH) == '*' || (CH) == '/' || (CH) == '%')
