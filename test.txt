@@ -1,5 +1,75 @@
-a: i8 = 10;
-a: i8 = 10 * 12;
-b: bool = false;
-s: str = "hello";
-c: char = 'a';
+ 
+int number = 10;
+
+const int a = 10 * 12;
+
+bool b = false;
+
+string word = "hello";
+
+char alpha = 'a';
+
+int x = 5;
+
+int numbers[5] = [1, 2, 3, 4, 5];
+
+ 
+struct Point {
+    x: int,
+    y: int,
+}
+
+class Circle {
+public:
+    float radius;
+
+    init(float r) {
+        this.radius = r;
+    }
+    
+    fn area() -> float{
+        return 3.14 * this.radius * this.radius;
+    }
+}
+
+
+fn factorial(n: int) -> int {
+    match n {
+        | 0 -> 1
+        | _ -> n * factorial(n - 1)
+    }
+}
+
+
+for ( i = 0; i <=10; i += 2){
+
+}
+
+
+ while j < 10 {
+    code
+    j += 1;
+}
+
+ fn check_number(num: int) {
+    if num > 0 {
+        code    
+    } else if num < 0 {
+        code
+    } else {
+        code
+    }
+}
+
+ fn fibonacci(n: int) -> int {
+    match n {
+        | 0 -> 0
+        | 1 -> 1
+        | _ -> fibonacci(n - 1) + fibonacci(n - 2)
+    }
+}
+
+
+fn main() {
+    int result = factorial(5);   
+}

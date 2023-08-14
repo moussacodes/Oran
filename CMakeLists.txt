@@ -1,9 +1,17 @@
-cmake_minimum_required(VERSION 3.0)
 
+cmake_minimum_required(VERSION 3.10)
 project(oran)
+
 include_directories(include)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 
-add_executable(oran src/main.c)
-add_executable(main.out src/main.c)
+set(SOURCE_FILES
+    src/main.c
+    src/compiler/lexer.c
+    src/compiler/parser.c
+    src/utils/common.c
+)
+
+add_executable(oran ${SOURCE_FILES})
+ 

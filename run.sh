@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cd build && cmake .. && make && ./Haifa ../test.txt && sleep 1 && cd ..
+cd build && cmake .. && make && ./oran ../test.txt && sleep 1 && cd ..
