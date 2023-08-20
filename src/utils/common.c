@@ -1,16 +1,7 @@
 
 #include "common.h"
 
-#define IS_DELIMITER(CH) (        \
-    (CH) == '(' || (CH) == ')' || \
-    (CH) == '{' || (CH) == '}' || \
-    (CH) == ',' || (CH) == ';' || \
-    (CH) == ':' || (CH) == '|')
-
-#define IS_OPERATOR(CH) (         \
-    (CH) == '+' || (CH) == '*' || \
-    (CH) == '%' || (CH) == '-' || \
-    (CH) == '/')
+ 
 
 #define FREE_TOKEN(token)     \
     do                        \

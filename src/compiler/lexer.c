@@ -144,7 +144,12 @@ Token **tokenize(Content **input, int numLines, int *numTokens)
                     buffer[bufferIndex++] = '=';
                     index++;
                 }
-
+                if (input[i]->lineContent[index] == '=' && input[i]->lineContent[index + 1] == '>')
+                {
+                    buffer[bufferIndex++] = '>';
+                    type = TOKEN_DEFAULT_KEY;
+                    index++;
+                }
                 buffer[bufferIndex] = '\0'; // Null-terminate the buffer
 
                 tokens = realloc(tokens, (*numTokens + 1) * sizeof(Token *));
@@ -166,7 +171,7 @@ Token **tokenize(Content **input, int numLines, int *numTokens)
                 buffer[bufferIndex] = '\0';
 
                 TokenType type = TOKEN_IDENTIFIER;
-                if (strcmp(buffer, "int") == 0 || strcmp(buffer, "float") == 0)
+                if (IS_KEYWORD(buffer))
                 {
                     type = TOKEN_KEYWORD;
                 }
@@ -180,7 +185,7 @@ Token **tokenize(Content **input, int numLines, int *numTokens)
 
             if (isdigit(currentChar))
             {
-                while (isdigit(input[i]->lineContent[index]) || input[i]->lineContent[index] == ',')
+                while (isdigit(input[i]->lineContent[index]) || input[i]->lineContent[index] == '.')
                 {
                     buffer[bufferIndex++] = input[i]->lineContent[index++];
                 }

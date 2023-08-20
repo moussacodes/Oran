@@ -1,75 +1,113 @@
  
-int number = 10;
 
-const int a = 10 * 12;
-
-bool b = false;
-
-string word = "hello";
-
-char alpha = 'a';
-
-int x = 5;
-
-int numbers[5] = [1, 2, 3, 4, 5];
+let x = 42
 
  
-struct Point {
-    x: int,
-    y: int,
+
+const PI = 3.14159
+
+ 
+let arr: Array<Float> = [1.2, 75.4]
+
+ 
+fn add(x, y) {
+return x + y
 }
 
-class Circle {
-public:
-    float radius;
+ 
+let result = add(5, 7)
 
-    init(float r) {
-        this.radius = r;
+ 
+fn add(x: Int, y: Int): Int {
+return x + y
+}
+
+ 
+
+import Math
+import List as L
+
+ 
+ 
+ 
+for i = 1 to 10 {
+print(i)
+}
+
+ 
+ 
+class Rectangle {
+    constructor(width, height) {
+        this.width = width
+        this.height = height
     }
-    
-    fn area() -> float{
-        return 3.14 * this.radius * this.radius;
+
+    method area() {
+        return this.width * this.height
     }
-}
-
-
-fn factorial(n: int) -> int {
-    match n {
-        | 0 -> 1
-        | _ -> n * factorial(n - 1)
-    }
-}
-
-
-for ( i = 0; i <=10; i += 2){
 
 }
+ 
 
+ 
+let add = fn (x, y) => x + y
+let double = fn (x) => x * 2
+let apply = fn (func, arg) => func(arg)
 
- while j < 10 {
-    code
-    j += 1;
+ 
+let immutableVar = const 42
+
+ 
+let a = match x {
+| 0 => "Zero"
+| n if n < 0 => "Negative"
+| _ => "Positive"
 }
 
- fn check_number(num: int) {
-    if num > 0 {
-        code    
-    } else if num < 0 {
-        code
-    } else {
-        code
-    }
+ 
+let square = fn (x) => x * x
+
+ 
+let makeCounter = fn () => {
+let count = ref 0
+fn () => {
+count := !count + 1
+!count
+}
 }
 
- fn fibonacci(n: int) -> int {
-    match n {
-        | 0 -> 0
-        | 1 -> 1
-        | _ -> fibonacci(n - 1) + fibonacci(n - 2)
-    }
-}
+ 
+let rec factorial = fn (n, acc = 1) =>
+if n <= 1 then acc else factorial(n - 1, n * acc)
 
+ 
+ 
+let pureAdd = fn (x, y) => x + y
 
-fn main() {
-    int result = factorial(5);   
-}
+ 
+let maybeDouble = fn (x) => if x? then Just(x * 2) else Nothing
+
+ 
+
+let add = fn (x, y) => x + y 
+
+ 
+type Shape =
+| Circle of Float
+| Rectangle of { width: Float, height: Float }
+
+ 
+let curryAdd = fn (x) => fn (y) => x + y
+
+ 
+ 
+type List a =
+| Nil
+| Cons a (List a)
+
+ 
+let nums = range(1, Infinity)
+let squares = map(fn (x) => x * x, nums)
+
+ 
+ 

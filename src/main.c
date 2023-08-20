@@ -30,7 +30,8 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
     int numTokens;
-     Token **tokens = tokenize(fileContent, numLines, &numTokens);
+    Token **tokens = tokenize(fileContent, numLines, &numTokens);
+    // Proposition* propositions  = extract_propositions(**tokens, numTokens);
 
     printf("Tokens:\n");
     printTokens(tokens, numTokens);
